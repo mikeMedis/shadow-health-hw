@@ -1,0 +1,2 @@
+class Reslt < ApplicationRecord
+end

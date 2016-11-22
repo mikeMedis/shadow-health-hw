@@ -1,0 +1,22 @@
+ <%- model_class = Workout -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+      <%= form_tag workout_guess_questions_path, :method => :put do %>
+       <% for question in @exercise.questions do %>
+          <li><%= question.content %></li>
+             <% for answer in question.answers do %>
+               <li>
+                 <%= fields_for "answers[]", answer do |f| %>
+                   <%= answer.content %>  
+                   <%= f.check_box :guess, :checked => false %>    
+                 <% end %>
+                </li>
+             <% end %>
+        <% end %>
+      <%= submit_tag "Guess" %>
+     <% end %>
+
+    <%= link_to t('.back', :default => t("helpers.links.back")), exercises_path, :exercise_id => @exercise.id, :class => 'btn btn-default' %>
+    <%= link_to t('Previous question', :default => t("helpers.links.previous")), {:action => 'show', :id => @exercise.previous, :exercise_id => @exercise.id}, :class => 'btn btn-default' %>
+    <%= link_to t('Next question', :default => t("helpers.links.next")), {:action => 'show', :id => @exercise.next, :exercise_id => @exercise.id}, :class => 'btn btn-default' %>
